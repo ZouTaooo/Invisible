@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.SignUpAndForgetActivity.SignUpAndForget3Activity">
+
+
+    <include layout="@layout/layout_toolbar" />
+
+    <TextView
+        android:id="@+id/text_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="昵称"
+        android:textColor="#000"
+        android:textSize="14sp" />
+    <EditText
+        android:maxLength="16"
+        android:id="@+id/nickname"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Nickname"
+        android:inputType="text"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/text_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="邮箱"
+        android:textColor="#000"
+        android:textSize="14sp" />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/text_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="密码"
+        android:textColor="#000"
+        android:textSize="14sp" />
+    <EditText
+        android:maxLength="16"
+        android:id="@+id/password1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:textSize="21sp" />
+
+    <EditText
+        android:maxLength="16"
+        android:id="@+id/password2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="再次输入密码"
+        android:inputType="textPassword"
+        android:textSize="21sp" />
+
+    <include
+        layout="@layout/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp" />
+</LinearLayout>

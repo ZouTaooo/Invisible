@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#CE2820</color>
+    <color name="colorAccent">#F23826</color>
+    <color name="color_black">#000</color>
+    <color name="color_white">#FFF</color>
+    <color name="color_gray">#9E9E9E</color>
+    <color name="color_red">#e51c23</color>>
+    <color name="color_green">#259b24</color>
+    <color name="transport">#00000000</color>
+    <drawable name="color_black">#000</drawable>
+    <drawable name="color_white">#FFF</drawable>
+    <drawable name="color_gray">#9E9E9E</drawable>
+    <drawable name="color_red">#e51c23</drawable>>
+    <drawable name="color_green">#259b24</drawable>
+    <color name="gray">#8A000000</color>
+</resources>
