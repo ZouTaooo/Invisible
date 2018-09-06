@@ -51,6 +51,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/hyphenatechat_3.4.3.jar')
-
+    //验证码控件
     implementation 'com.justkiddingbaby:vercodeedittext:1.0.5'
+    //圆形图片控件
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }

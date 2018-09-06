@@ -1,6 +1,7 @@
 package com.example.invisible.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.invisible.Adapter.MyFragmentPagerAdapter;
 import com.example.invisible.Confi.BaseActivity;
+import com.example.invisible.Confi.MyApplication;
 import com.example.invisible.Fragment.BottleFragment;
 import com.example.invisible.Fragment.ChatFragment;
 import com.example.invisible.Fragment.DiaryFragment;
@@ -30,6 +31,7 @@ import java.util.List;
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
 
     private Toolbar mToolbar;
+
     private ViewPager mViewpager;
     /**
      * 日迹
@@ -43,14 +45,16 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
      * 漂流瓶
      */
     private TextView mBottle;
+
     private NavigationView mNavigationView;
+
     private DrawerLayout mDrawLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_center);
-        setTranslucent(this);
+        //setTranslucent(this);
         initView();
 
     }
@@ -84,6 +88,27 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.modify_password:
+                        break;
+                    case R.id.modify_nickname:
+                        break;
+                    case R.id.delete_share_preference:
+                        //TODO clear share preferences
+                        break;
+                    case R.id.settings:
+                        break;
+                    case R.id.about:
+                        break;
+                    case R.id.feedback:
+                        break;
+                    case R.id.exit:
+                        startActivity(new Intent(CenterActivity.this,LoginActivity.class));
+                        removeAllActivity();
+                        break;
+                    default:
+                        break;
+                }
                 mDrawLayout.closeDrawer(GravityCompat.START);
                 return true;
             }

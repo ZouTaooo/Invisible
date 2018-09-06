@@ -129,6 +129,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             putS("token", tokenBasebean.getBody().getToken());
                             Log.e(TAG, "accept: token" + tokenBasebean.getBody().getToken());
                             startActivity(new Intent(LoginActivity.this,CenterActivity.class));
+                            removeAllActivity();
                         } else {
                             T(tokenBasebean.getMsg());
                         }

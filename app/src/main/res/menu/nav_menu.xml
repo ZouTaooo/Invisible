@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group_1"
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_reorder_white_36dp"
-            android:title="Import"/>
+            android:id="@+id/modify_password"
+            android:icon="@drawable/icons8_key"
+            android:title="修改密码" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_reorder_white_36dp"
-            android:title="Gallery"/>
+            android:id="@+id/modify_nickname"
+            android:icon="@drawable/icons8_user"
+            android:title="修改昵称" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_reorder_white_36dp"
-            android:title="Slideshow"/>
+            android:id="@+id/delete_share_preference"
+            android:icon="@drawable/icons8_restart"
+            android:title="清除缓存" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_reorder_white_36dp"
-            android:title="Tools"/>
+            android:id="@+id/settings"
+            android:icon="@drawable/icons8_settings3"
+            android:title="设置" />
+
     </group>
+    <group
+        android:id="@+id/group_2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/icons8_about"
+            android:title="关于" />
+        <item
+            android:id="@+id/feedback"
+            android:icon="@drawable/icons8_pencil"
+            android:title="反馈" />
+        <item
+            android:id="@+id/exit"
+            android:icon="@drawable/ic_arrow_back_black_48dp"
+            android:title="退出登录" />
+    </group>
+
+
 </menu>

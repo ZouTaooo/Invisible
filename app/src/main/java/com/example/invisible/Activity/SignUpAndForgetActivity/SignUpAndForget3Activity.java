@@ -1,5 +1,6 @@
 package com.example.invisible.Activity.SignUpAndForgetActivity;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import com.example.invisible.Activity.LoginActivity;
 import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Token;
 import com.example.invisible.Confi.BaseActivity;
+import com.example.invisible.Confi.MyApplication;
 import com.example.invisible.Factory.RetrofitFactory;
 import com.example.invisible.R;
 import com.hyphenate.chat.EMClient;
@@ -47,7 +49,6 @@ public class SignUpAndForget3Activity extends BaseActivity implements View.OnCli
      */
     private TextView mTextNickname;
     private TextView mTextEmail;
-    private TextView mTextPassword;
     private EditText mEmail;
     private Button mBaseBtn;
 
@@ -164,23 +165,11 @@ public class SignUpAndForget3Activity extends BaseActivity implements View.OnCli
                         Log.e(TAG, "accept: " + tokenBasebean.getMsg());
                         if (tokenBasebean.getStatus() == 1) {
                             showDialog("欢迎来到Invisible!");
-                            //注册失败会抛出HyphenateException
-                            try {
-                                EMClient.getInstance().createAccount("username", "pwd");//同步方法
-                            } catch (HyphenateException e) {
-                                e.printStackTrace();
-                            }
                         } else {
                             T(tokenBasebean.getMsg());
                         }
                     }
                 });
-        //注册失败会抛出HyphenateException
-        try {
-            EMClient.getInstance().createAccount("username", "pwd");//同步方法
-        } catch (HyphenateException e) {
-            e.printStackTrace();
-        }
     }
 
     private void showDialog(String msg) {
@@ -196,6 +185,7 @@ public class SignUpAndForget3Activity extends BaseActivity implements View.OnCli
                         i.putExtra("phone", phone);
                         i.putExtra("password", mPassword1.getText().toString());
                         startActivity(i);
+                        removeAllActivity();
                     }
                 });
         dialog.show();

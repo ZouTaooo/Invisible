@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class BaseActivity extends AppCompatActivity {
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
     private MyApplication mApplication;
     private BaseActivity mContext;
 
