@@ -9,10 +9,11 @@
     <color name="color_red">#e51c23</color>>
     <color name="color_green">#259b24</color>
     <color name="transport">#00000000</color>
+    <color name="gray">#8A000000</color>
+    <color name="FRAGMENT_ONE_COLOR">#242C3B</color>
     <drawable name="color_black">#000</drawable>
     <drawable name="color_white">#FFF</drawable>
     <drawable name="color_gray">#9E9E9E</drawable>
     <drawable name="color_red">#e51c23</drawable>>
     <drawable name="color_green">#259b24</drawable>
-    <color name="gray">#8A000000</color>
 </resources>
