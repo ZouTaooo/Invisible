@@ -31,12 +31,6 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        mChat = view.findViewById(R.id.chat);
-        mChat.setBackgroundColor(Color.parseColor("#4DD0E1"));
-        mTalk = view.findViewById(R.id.talk);
-        mTalk.setBackgroundColor(Color.parseColor("#AAAAAA"));
-        mListen = view.findViewById(R.id.listen);
-        mListen.setBackgroundColor(Color.parseColor("#02D7F2"));
         return view;
     }
 

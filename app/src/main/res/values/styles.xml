@@ -1,10 +1,14 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#3F51B5</item>
         <item name="colorPrimaryDark">#CE2820</item>
         <item name="colorAccent">#F23826</item>
+    </style>
+
+    <style name="ToolbarPopupTheme" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:colorBackground">@color/color_gray</item>  <!-- 设置背景颜色-->
+        <item name="overlapAnchor">false</item>  <!--设置不覆盖锚点-->
     </style>
 </resources>

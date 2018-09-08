@@ -1,7 +1,11 @@
 package com.example.invisible.Activity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,76 +15,153 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.invisible.Adapter.MyFragmentPagerAdapter;
 import com.example.invisible.Confi.BaseActivity;
-import com.example.invisible.Confi.MyApplication;
-import com.example.invisible.Fragment.BottleFragment;
 import com.example.invisible.Fragment.ChatFragment;
-import com.example.invisible.Fragment.DiaryFragment;
+import com.example.invisible.Fragment.ListenFragment;
+import com.example.invisible.Fragment.TalkFragment;
 import com.example.invisible.R;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final String FRAGMENT_ONE_COLOR = "#242C3B";
+    private static final String FRAGMENT_TWO_COLOR = "#2784E6";
+    private static final String FRAGMENT_ZERO_COLOR = "#EE2B29";
+
+    private Map<Integer, String> colorMap;
+
+    private Map<Integer, TextView> textViewMap;
+
+    private int pre_position = -1;
+
+    private int now_position = 1;
 
     private Toolbar mToolbar;
 
     private ViewPager mViewpager;
     /**
-     * 日迹
+     * 倾诉
      */
-    private TextView mDiary;
+    private TextView mTalk;
     /**
      * 聊天
      */
     private TextView mChat;
     /**
-     * 漂流瓶
+     * 聆听
      */
-    private TextView mBottle;
+    private TextView mListen;
 
     private NavigationView mNavigationView;
 
     private DrawerLayout mDrawLayout;
 
+    private View statusBar;
+
+    private LinearLayout mHeader;
+
+    private static final String TAG = "CenterActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_center);
-        //setTranslucent(this);
+        fullScreen(this);
         initView();
+        initMap();
+    }
 
+    private void initMap() {
+        colorMap = new HashMap();
+        colorMap.put(0, FRAGMENT_ZERO_COLOR);
+        colorMap.put(1, FRAGMENT_ONE_COLOR);
+        colorMap.put(2, FRAGMENT_TWO_COLOR);
+        textViewMap = new HashMap<>();
+        textViewMap.put(0, mTalk);
+        textViewMap.put(1, mChat);
+        textViewMap.put(2, mListen);
     }
 
     private void initView() {
-        mDiary = (TextView) findViewById(R.id.diary);
-        mDiary.setOnClickListener(this);
+        mHeader = findViewById(R.id.center_header);
+        mTalk = (TextView) findViewById(R.id.talk);
+        mTalk.setOnClickListener(this);
         mChat = (TextView) findViewById(R.id.chat);
+        mChat.setTextSize(22);
         mChat.setOnClickListener(this);
-        mBottle = (TextView) findViewById(R.id.bottle);
-        mBottle.setOnClickListener(this);
+        mListen = (TextView) findViewById(R.id.listen);
+        mListen.setOnClickListener(this);
         mDrawLayout = findViewById(R.id.drawer_layout);
+        setUpStatusBar();
         setUpTitleBar();
         setUpViewPager();
         setUpNav();
+    }
 
+    private void setUpStatusBar() {
+        statusBar = findViewById(R.id.statusBarView);
+        ViewGroup.LayoutParams layoutParams = statusBar.getLayoutParams();
+        layoutParams.height = getStatusBarHeight();
+        statusBar.setBackgroundColor(Color.parseColor(FRAGMENT_ONE_COLOR));
     }
 
     private void setUpViewPager() {
         mViewpager = (ViewPager) findViewById(R.id.viewpager);
         List<Fragment> list = new ArrayList<>();
+        list.add(new TalkFragment());
         list.add(new ChatFragment());
-        list.add(new BottleFragment());
-        list.add(new DiaryFragment());
+        list.add(new ListenFragment());
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), list);
         mViewpager.setAdapter(adapter);
+        mViewpager.setCurrentItem(1);
+        mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.e("vp", "滑动中=====position:" + position + "   positionOffset:" + positionOffset + "   positionOffsetPixels:" + positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pre_position = now_position;
+                now_position = position;
+                BackgroundColorAnimation(pre_position, now_position);
+                textViewMap.get(now_position).setTextSize(22);
+                textViewMap.get(pre_position).setTextSize(20);
+                Log.e("vp", "显示页改变=====postion:" + position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                switch (state) {
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        Log.e(TAG, "onPageScrollStateChanged: prepositon: " + pre_position + "     nowposition: " + now_position);
+                        break;
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                        Log.e("vp", "状态改变=====SCROLL_STATE_DRAGGING==滑动状态");
+                        pre_position = now_position;
+                        break;
+                    case ViewPager.SCROLL_STATE_SETTLING:
+                        Log.e("vp", "状态改变=====SCROLL_STATE_SETTLING==滑翔状态");
+                        break;
+                }
+            }
+        });
     }
 
     private void setUpNav() {
@@ -103,7 +184,7 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                     case R.id.feedback:
                         break;
                     case R.id.exit:
-                        startActivity(new Intent(CenterActivity.this,LoginActivity.class));
+                        startActivity(new Intent(CenterActivity.this, LoginActivity.class));
                         removeAllActivity();
                         break;
                     default:
@@ -117,11 +198,12 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
 
     private void setUpTitleBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(this);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("聊天");
-        mToolbar.setNavigationIcon(R.drawable.ic_reorder_white_36dp);
+        getSupportActionBar().setTitle("");
     }
 
+    /*左上角导航键点击事件*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -131,7 +213,7 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         return false;
     }
 
-    //如果DrawLayout被打开则关闭DrawLayout
+    /*如果DrawLayout被打开则关闭DrawLayout*/
     @Override
     public void onBackPressed() {
         if (mDrawLayout.isDrawerOpen(GravityCompat.START)) {
@@ -141,34 +223,47 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    /**
-     * 使状态栏透明
-     * <p>
-     * <p>
-     * <p>
-     * 适用于图片作为背景的界面,此时需要图片填充到状态栏
-     *
-     * @param activity 需要设置的activity
-     */
-
-    public static void setTranslucent(Activity activity) {
-
+    /*全屏模式延伸*/
+    private void fullScreen(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-            // 设置状态栏透明
-
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            // 设置根布局的参数
-
-            ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-
-            rootView.setFitsSystemWindows(true);
-
-            rootView.setClipToPadding(true);
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
+                Window window = activity.getWindow();
+                View decorView = window.getDecorView();
+                //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+                int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+                decorView.setSystemUiVisibility(option);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.TRANSPARENT);
+                //导航栏颜色也可以正常设置
+//                window.setNavigationBarColor(Color.TRANSPARENT);
+            } else {
+                Window window = activity.getWindow();
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+                int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+                attributes.flags |= flagTranslucentStatus;
+//                attributes.flags |= flagTranslucentNavigation;
+                window.setAttributes(attributes);
+            }
         }
+    }
 
+    /**
+     * 利用反射获取状态栏高度
+     *
+     * @return
+     */
+    public int getStatusBarHeight() {
+        int result = 0;
+        //获取状态栏高度的资源id
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        Log.e(TAG, "getStatusBarHeight: " + result);
+        return result;
     }
 
     @Override
@@ -176,12 +271,60 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()) {
             default:
                 break;
-            case R.id.diary:
+            case R.id.talk:
+                changePager(0);
                 break;
             case R.id.chat:
+                changePager(1);
                 break;
-            case R.id.bottle:
+            case R.id.listen:
+                changePager(2);
                 break;
+            //TODO menu item
         }
+    }
+
+    private void changePager(int position) {
+        mViewpager.setCurrentItem(position);
+    }
+
+    /*加载右上角菜单栏*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /*通过反射为菜单item加icon*/
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        //hasToolbar 是用来判断该布局是否包含toolbar。
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    Log.e(TAG, "onMenuOpened", e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    /*为上半部分和状态栏加渐变动画*/
+    private void BackgroundColorAnimation(int pre_position, int now_position) {
+        ValueAnimator headerAnim = ObjectAnimator.ofInt(mHeader, "backgroundColor", Color.parseColor(colorMap.get(pre_position)), Color.parseColor(colorMap.get(now_position)));
+        headerAnim.setDuration(500);
+        headerAnim.setEvaluator(new ArgbEvaluator());
+        headerAnim.start();
+        ValueAnimator statusAnim = ObjectAnimator.ofInt(statusBar, "backgroundColor", Color.parseColor(colorMap.get(pre_position)), Color.parseColor(colorMap.get(now_position)));
+        statusAnim.setDuration(500);
+        statusAnim.setEvaluator(new ArgbEvaluator());
+        statusAnim.start();
     }
 }
