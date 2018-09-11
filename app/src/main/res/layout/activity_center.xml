@@ -34,7 +34,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_reorder_white_24dp"
+                app:navigationIcon="@drawable/icons8_menu_36"
                 app:popupTheme="@style/ToolbarPopupTheme"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:titleMarginStart="93dp"
@@ -74,8 +74,8 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:src="@drawable/heart"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp" />
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" />
                         <TextView
                             android:textSize="16sp"
                             android:id="@+id/user_num"

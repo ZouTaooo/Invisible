@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottle"
+        android:icon="@drawable/icons8_sea_heart_36"
+        android:title="漂流瓶" />
+    <item
+        android:id="@+id/diary"
+        android:icon="@drawable/icons8_sign_up_36"
+        android:title="日迹" />
+</menu>

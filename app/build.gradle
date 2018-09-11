@@ -55,4 +55,6 @@ dependencies {
     implementation 'com.justkiddingbaby:vercodeedittext:1.0.5'
     //圆形图片控件
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //StepView
+    implementation 'com.github.baoyachi:StepView:1.9'
 }

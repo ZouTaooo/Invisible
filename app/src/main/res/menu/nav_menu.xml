@@ -5,7 +5,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/modify_password"
-            android:icon="@drawable/icons8_key"
+            android:icon="@drawable/icons8_key_36"
             android:title="修改密码" />
         <item
             android:id="@+id/modify_nickname"

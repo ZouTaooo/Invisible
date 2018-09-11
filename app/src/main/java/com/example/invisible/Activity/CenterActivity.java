@@ -201,6 +201,19 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         mToolbar.setNavigationOnClickListener(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
+        //menu item click event
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.diary:
+                        startActivity(new Intent(CenterActivity.this, DiaryActivity.class));
+                    case R.id.bottle:
+                        startActivity(new Intent());
+                }
+                return true;
+            }
+        });
     }
 
     /*左上角导航键点击事件*/
@@ -280,7 +293,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
             case R.id.listen:
                 changePager(2);
                 break;
-            //TODO menu item
         }
     }
 
@@ -291,7 +303,7 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
     /*加载右上角菜单栏*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.center_toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
