@@ -1,14 +1,11 @@
 package com.example.invisible.Confi;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class BaseActivity extends AppCompatActivity {
@@ -49,8 +46,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     //获取缓存
-    public void getS(String key){
-        getPreference().getString(key, null);
+    public String getS(String key){
+        return getPreference().getString(key, null);
     }
 
     //获取SharedPreferences对象

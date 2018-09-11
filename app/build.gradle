@@ -57,4 +57,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //StepView
     implementation 'com.github.baoyachi:StepView:1.9'
+    //图片加载
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }

@@ -209,7 +209,7 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                     case R.id.diary:
                         startActivity(new Intent(CenterActivity.this, DiaryActivity.class));
                     case R.id.bottle:
-                        startActivity(new Intent());
+                        //startActivity(new Intent());
                 }
                 return true;
             }

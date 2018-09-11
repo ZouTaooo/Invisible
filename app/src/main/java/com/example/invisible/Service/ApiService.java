@@ -4,9 +4,13 @@ import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Token;
 
 import io.reactivex.Observable;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 public interface ApiService {
     String BASE_URL = "http://118.24.32.220:8001/";
@@ -39,7 +43,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/receive_sms/")
     Observable<Basebean> testMessage(@Field("mobile") String mobile,
-                                 @Field("code") String code);
+                                     @Field("code") String code);
 
     //修改密码
     @FormUrlEncoded
