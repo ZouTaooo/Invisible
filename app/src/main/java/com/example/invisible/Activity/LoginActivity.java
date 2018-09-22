@@ -18,8 +18,9 @@ import com.example.invisible.R;
 
 import java.util.regex.Pattern;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -122,18 +123,33 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         RetrofitFactory.getInstance().login(mAccount.getText().toString(), mPassword.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Basebean<Token>>() {
+                .subscribe(new Observer<Basebean<Token>>() {
                     @Override
-                    public void accept(Basebean<Token> tokenBasebean) throws Exception {
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Basebean<Token> tokenBasebean) {
                         if (tokenBasebean.getStatus() == 1) {
                             putS("token", tokenBasebean.getBody().getToken());
                             Log.e(TAG, "accept: token" + tokenBasebean.getBody().getToken());
-                            startActivity(new Intent(LoginActivity.this,CenterActivity.class));
+                            startActivity(new Intent(LoginActivity.this, CenterActivity.class));
                             removeAllActivity();
                         } else {
                             T(tokenBasebean.getMsg());
                         }
                         Log.e(TAG, "accept: " + tokenBasebean.getMsg());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        T(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

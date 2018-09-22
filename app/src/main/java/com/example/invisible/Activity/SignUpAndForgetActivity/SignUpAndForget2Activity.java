@@ -97,7 +97,6 @@ public class SignUpAndForget2Activity extends BaseActivity implements View.OnCli
         setSupportActionBar(toolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
         if (type == PHONE_REGISTER) {
             actionBar.setTitle("手机注册");
         } else if (type == FORGET_PASSWORD) {

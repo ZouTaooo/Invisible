@@ -2,19 +2,34 @@ package com.example.invisible.Confi;
 
 import android.app.Activity;
 import android.app.Application;
+
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyApplication extends Application{
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+public class MyApplication extends Application {
     private List<Activity> list;
 
     @Override
     public void onCreate() {
         super.onCreate();
         list = new ArrayList<>();
+        initIM();
+        initRealm();
+    }
+
+    private void initRealm() {
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().name("myrealm.realm").build();
+        Realm.setDefaultConfiguration(config);
+    }
+
+    private void initIM() {
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
@@ -29,7 +44,7 @@ public class MyApplication extends Application{
     }
 
     //添加单个Activity
-    public void addActivity(Activity activity){
+    public void addActivity(Activity activity) {
         if (!list.contains(activity)) {
             list.add(activity);
         }
@@ -41,9 +56,10 @@ public class MyApplication extends Application{
             list.remove(activity);
         }
     }
+
     //销毁所有Activity
-    public void exitApplication(){
-        for (Activity activity:list){
+    public void exitApplication() {
+        for (Activity activity : list) {
             activity.finish();
         }
     }

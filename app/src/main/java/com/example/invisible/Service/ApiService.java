@@ -2,15 +2,15 @@ package com.example.invisible.Service;
 
 import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Token;
+import com.example.invisible.Bean.Trace;
+
+import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Url;
 
 public interface ApiService {
     String BASE_URL = "http://118.24.32.220:8001/";
@@ -50,4 +50,16 @@ public interface ApiService {
     @POST("api/modify_password/")
     Observable<Basebean> modifyPassword(@Field("mobile") String mobile,
                                         @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("api/get_trace/")
+    Observable<Basebean<List<Trace>>> getTrace(@Field("time") String time,
+                                               @Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/trace/")
+    Observable<Basebean> putTrace(@Field("time") String time,
+                                  @Field("content") String content,
+                                  @Field("type") String type,
+                                  @Header("Authorization") String token);
 }
