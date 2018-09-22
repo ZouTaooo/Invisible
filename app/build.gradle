@@ -56,8 +56,6 @@ dependencies {
     implementation 'com.justkiddingbaby:vercodeedittext:1.0.5'
     //圆形图片控件
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    //StepView
-    implementation 'com.xyz.step:step:1.0.4'
     //图片加载
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
