@@ -307,8 +307,8 @@ public class DiaryActivity extends BaseActivity implements View.OnClickListener,
             case 6:
                 weekNum = "六";
                 break;
-            case 7:
-                weekNum = "七";
+            case 0:
+                weekNum = "天";
                 break;
         }
         return "星期" + weekNum;//其中1~7表示周一到周日

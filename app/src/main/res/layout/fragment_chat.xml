@@ -5,10 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background_1_modified"
     tools:context=".Fragment.ChatFragment">
 
     <TextView
-        android:text="chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="在这里,你可以点击下面的按钮跟陌生的人一起欢乐的聊天"
+        android:layout_marginTop="100dp"
+        android:layout_width="190dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="40dp" />
+
+    <Button
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center_horizontal"
+        android:text="开始聊天"
+        android:textColor="@color/color_white"
+        android:background="@drawable/button_startchat"
+        android:layout_width="200dp"
+        android:layout_height="41dp" />
 </LinearLayout>

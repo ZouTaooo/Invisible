@@ -72,9 +72,10 @@
         <activity android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget2Activity" />
         <activity android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget3Activity" />
         <activity android:name=".Activity.CenterActivity" />
-        <activity android:name=".Activity.DiaryActivity"
-            android:theme="@style/TransparentActivity">
-        </activity>
+        <activity
+            android:name=".Activity.DiaryActivity"
+            android:theme="@style/TransparentActivity"></activity>
+        <activity android:name=".Activity.BottlesActivity"></activity>
     </application>
 
 </manifest>

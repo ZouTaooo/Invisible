@@ -3,10 +3,8 @@ package com.example.invisible.Activity;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,11 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.invisible.Adapter.MyFragmentPagerAdapter;
 import com.example.invisible.Confi.BaseActivity;
 import com.example.invisible.Fragment.ChatFragment;
@@ -32,11 +30,18 @@ import com.example.invisible.Fragment.ListenFragment;
 import com.example.invisible.Fragment.TalkFragment;
 import com.example.invisible.R;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
 
@@ -76,6 +81,9 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
 
     private LinearLayout mHeader;
 
+
+    private ImageView mNav_pic;
+
     private static final String TAG = "CenterActivity";
 
     @Override
@@ -112,6 +120,33 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         setUpTitleBar();
         setUpViewPager();
         setUpNav();
+    }
+
+    private void getBingPic() {
+        OkHttpClient client = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url("http://guolin.tech/api/bing_pic")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                T(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String url = response.body().string();
+                putS("bing_pic", url);
+                putS("pic_time", "");
+                Log.e(TAG, "onResponse: " + url);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(CenterActivity.this).load(url).into(mNav_pic);
+                    }
+                });
+            }
+        });
     }
 
     private void setUpStatusBar() {
@@ -166,6 +201,16 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
 
     private void setUpNav() {
         mNavigationView = findViewById(R.id.nav_view);
+        View headerView = mNavigationView.getHeaderView(0);
+        mNav_pic = headerView.findViewById(R.id.nav_pic);
+        String url = getS("bing_pic");
+        if (url != null) {
+            Glide.with(CenterActivity.this)
+                    .load(url)
+                    .into(mNav_pic);
+        } else {
+            getBingPic();
+        }
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -205,11 +250,15 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.diary:
                         startActivity(new Intent(CenterActivity.this, DiaryActivity.class));
+                        break;
                     case R.id.bottle:
-                        //startActivity(new Intent());
+                        startActivity(new Intent(CenterActivity.this, BottlesActivity.class));
+                        break;
+                    default:
+                        break;
                 }
                 return true;
             }
@@ -233,33 +282,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
             mDrawLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
-    }
-
-    /*全屏模式延伸*/
-    private void fullScreen(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
-                Window window = activity.getWindow();
-                View decorView = window.getDecorView();
-                //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-                int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-                decorView.setSystemUiVisibility(option);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.TRANSPARENT);
-                //导航栏颜色也可以正常设置
-//                window.setNavigationBarColor(Color.TRANSPARENT);
-            } else {
-                Window window = activity.getWindow();
-                WindowManager.LayoutParams attributes = window.getAttributes();
-                int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-                int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-                attributes.flags |= flagTranslucentStatus;
-//                attributes.flags |= flagTranslucentNavigation;
-                window.setAttributes(attributes);
-            }
         }
     }
 

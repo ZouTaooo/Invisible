@@ -1,6 +1,7 @@
 package com.example.invisible.Service;
 
 import com.example.invisible.Bean.Basebean;
+import com.example.invisible.Bean.Bottle;
 import com.example.invisible.Bean.Token;
 import com.example.invisible.Bean.Trace;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -62,4 +64,22 @@ public interface ApiService {
                                   @Field("content") String content,
                                   @Field("type") String type,
                                   @Header("Authorization") String token);
+
+    @GET("api/bottle/")
+    Observable<Basebean<Bottle>> getBottle(@Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("api/bottle/")
+    Observable<Basebean> sendBottle(@Header("Authorization") String token,
+                                            @Field("content") String content);
+
+    @FormUrlEncoded
+    @POST("api/re_bottle/")
+    Observable<Basebean> replyBottle(@Header("Authorization") String token,
+                                     @Field("re_content") String reply,
+                                     @Field("pre_content") String content,
+                                     @Field("to_user") String userId);
+
+    @GET("api/get_rebottle/")
+    Observable<Basebean> getHistoryBottle(@Header("Authorization") String token);
 }

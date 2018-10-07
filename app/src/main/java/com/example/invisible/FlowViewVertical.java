@@ -59,22 +59,22 @@ public class FlowViewVertical extends View {
 
     public FlowViewVertical(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray ta = context.obtainStyledAttributes(attrs, com.xyz.step.R.styleable.FlowViewVertical);
-        bgRadius = ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_bg_radius, 10);
-        proRadius = ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_pro_radius, 8);
-        lineBgWidth = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_bg_width, 3f);
-        bgColor = ta.getColor(com.xyz.step.R.styleable.FlowViewVertical_v_bg_color, Color.parseColor("#cdcbcc"));
-        lineProWidth = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_pro_width, 2f);
-        proColor = ta.getColor(com.xyz.step.R.styleable.FlowViewVertical_v_pro_color, Color.parseColor("#029dd5"));
-        interval = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_interval, 140);
-        maxStep = ta.getInt(com.xyz.step.R.styleable.FlowViewVertical_v_max_step, 5);
-        proStep = ta.getInt(com.xyz.step.R.styleable.FlowViewVertical_v_pro_step, 3);
-        bgPositionX = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_bgPositionX, 200);
-        textPaddingLeft = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_textPaddingLeft, 40);
-        timePaddingRight = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_timePaddingRight, 80);
-        textMoveTop = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_textMoveTop, 10);
-        timeMoveTop = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_timeMoveTop, 8);
-        textsize = (int) ta.getDimension(com.xyz.step.R.styleable.FlowViewVertical_v_textsize, 17);
+        TypedArray ta = context.obtainStyledAttributes(attrs, com.example.invisible.R.styleable.FlowViewVertical);
+        bgRadius = ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_bg_radius, 10);
+        proRadius = ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_pro_radius, 8);
+        lineBgWidth = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_bg_width, 3f);
+        bgColor = ta.getColor(com.example.invisible.R.styleable.FlowViewVertical_v_bg_color, Color.parseColor("#cdcbcc"));
+        lineProWidth = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_pro_width, 2f);
+        proColor = ta.getColor(com.example.invisible.R.styleable.FlowViewVertical_v_pro_color, Color.parseColor("#029dd5"));
+        interval = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_interval, 140);
+        maxStep = ta.getInt(com.example.invisible.R.styleable.FlowViewVertical_v_max_step, 5);
+        proStep = ta.getInt(com.example.invisible.R.styleable.FlowViewVertical_v_pro_step, 3);
+        bgPositionX = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_bgPositionX, 200);
+        textPaddingLeft = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_textPaddingLeft, 40);
+        timePaddingRight = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_timePaddingRight, 80);
+        textMoveTop = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_textMoveTop, 10);
+        timeMoveTop = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_timeMoveTop, 8);
+        textsize = (int) ta.getDimension(com.example.invisible.R.styleable.FlowViewVertical_v_textsize, 17);
         ta.recycle();
         init();
     }
