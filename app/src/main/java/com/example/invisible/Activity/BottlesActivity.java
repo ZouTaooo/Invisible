@@ -2,6 +2,7 @@ package com.example.invisible.Activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -14,11 +15,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.invisible.Adapter.HistoryBottlesRecyclerViewAdapter;
 import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Bottle;
+import com.example.invisible.Bean.HistoryBottles;
 import com.example.invisible.Confi.BaseActivity;
 import com.example.invisible.Factory.RetrofitFactory;
 import com.example.invisible.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -126,6 +132,24 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
         mSend = (TextView) findViewById(R.id.send);
         mSend.setOnClickListener(this);
         mBottlesRecyclerView = (RecyclerView) findViewById(R.id.bottles_recyclerView);
+        RetrofitFactory.getInstance().getHistoryBottle("Token " + token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Basebean<List<HistoryBottles.HistoryItem>>>() {
+                    @Override
+                    public void accept(Basebean<List<HistoryBottles.HistoryItem>> listBasebean) throws Exception {
+                        List<HistoryBottles.HistoryItem> historyItems;
+                        if (listBasebean.getBody()!=null) {
+                            historyItems = listBasebean.getBody();
+                        } else {
+                            historyItems = new ArrayList<>();
+                        }
+                        HistoryBottlesRecyclerViewAdapter adapter = new HistoryBottlesRecyclerViewAdapter(BottlesActivity.this, historyItems);
+                        mBottlesRecyclerView.setLayoutManager(new LinearLayoutManager(BottlesActivity.this));
+                        mBottlesRecyclerView.setAdapter(adapter);
+
+                    }
+                });
         mContentLayout = (LinearLayout) findViewById(R.id.content_layout);
     }
 
@@ -195,42 +219,17 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
                 setVisibility1_1(View.VISIBLE);
                 break;
             case R.id.push:
-                //TODO push
                 String content = mBottleContent.getText().toString();
                 if (!TextUtils.isEmpty(content)) {
-                    RetrofitFactory.getInstance().sendBottle("Token " + token, content)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<Basebean>() {
-                                @Override
-                                public void accept(Basebean basebean) throws Exception {
-                                    Log.e(TAG, "accept: " + basebean.getMsg());
-                                }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) throws Exception {
-                                    Log.e(TAG, "accept: " + throwable.getMessage());
-                                }
-                            });
+                    pushBottle(content);
                 }
+                setVisibility1_1(View.VISIBLE);
+                setVisibility1_2(View.GONE);
+                mBottleContent.setText("");
                 break;
             case R.id.get_bottle:
                 setVisibility2_1(View.GONE);
-                RetrofitFactory.getInstance().getBottle("Token " + token).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Basebean<Bottle>>() {
-                            @Override
-                            public void accept(Basebean<Bottle> bottleBasebean) throws Exception {
-                                Log.e(TAG, "accept: " + bottleBasebean.getBody().getContent());
-                                putS("reply", bottleBasebean.getBody().getContent());
-                                putS("userId", bottleBasebean.getBody().getFrom());
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Log.e(TAG, "accept: " + throwable.getMessage());
-                            }
-                        });
+                getBottle();
                 setVisibility2_2(View.VISIBLE);
                 break;
             case R.id.back2_1:
@@ -246,24 +245,67 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
                 setVisibility2_3(View.GONE);
                 break;
             case R.id.send:
-                //TODO send
                 String reply = mReplyContent.getText().toString();
-                RetrofitFactory.getInstance()
-                        .replyBottle(token, reply, getS("reply"), getS("userId"))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Basebean>() {
-                            @Override
-                            public void accept(Basebean basebean) throws Exception {
-                                Log.e(TAG, "accept: " + basebean.getMsg());
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Log.e(TAG, "accept: " + throwable.getMessage());
-                            }
-                        });
+                sendReply(reply);
+                setVisibility2_1(View.VISIBLE);
+                setVisibility2_3(View.GONE);
+                mContent22.setText("");
+                mReplyContent.setText("");
                 break;
         }
+    }
+
+    private void sendReply(String reply) {
+        RetrofitFactory.getInstance()
+                .replyBottle("Token " + token, reply, getS("reply"), getS("userId"), "anything")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Basebean>() {
+                    @Override
+                    public void accept(Basebean basebean) throws Exception {
+                        Log.e(TAG, "accept:send " + basebean.getMsg());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept:send " + throwable.getMessage());
+                    }
+                });
+    }
+
+    private void getBottle() {
+        RetrofitFactory.getInstance().getBottle("Token " + token).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Basebean<Bottle>>() {
+                    @Override
+                    public void accept(Basebean<Bottle> bottleBasebean) throws Exception {
+                        Log.e(TAG, "accept:getBottle " + bottleBasebean.getBody().getContent());
+                        mContent22.setText(bottleBasebean.getBody().getContent());
+                        putS("reply", bottleBasebean.getBody().getContent());
+                        putS("userId", bottleBasebean.getBody().getFrom());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept:getBottle " + throwable.getMessage());
+                    }
+                });
+    }
+
+    private void pushBottle(String content) {
+        RetrofitFactory.getInstance().sendBottle("Token " + token, content, "anything")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Basebean>() {
+                    @Override
+                    public void accept(Basebean basebean) throws Exception {
+                        Log.e(TAG, "accept:push " + basebean.getMsg());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept:push " + throwable.getMessage());
+                    }
+                });
     }
 }

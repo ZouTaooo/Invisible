@@ -2,6 +2,7 @@ package com.example.invisible.Service;
 
 import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Bottle;
+import com.example.invisible.Bean.HistoryBottles;
 import com.example.invisible.Bean.Token;
 import com.example.invisible.Bean.Trace;
 
@@ -71,15 +72,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/bottle/")
     Observable<Basebean> sendBottle(@Header("Authorization") String token,
-                                            @Field("content") String content);
+                                    @Field("content") String content,
+                                    @Field("date") String date);
 
     @FormUrlEncoded
     @POST("api/re_bottle/")
     Observable<Basebean> replyBottle(@Header("Authorization") String token,
                                      @Field("re_content") String reply,
                                      @Field("pre_content") String content,
-                                     @Field("to_user") String userId);
+                                     @Field("to_user") String userId,
+                                     @Field("date") String anything);
 
     @GET("api/get_rebottle/")
-    Observable<Basebean> getHistoryBottle(@Header("Authorization") String token);
+    Observable<Basebean<List<HistoryBottles.HistoryItem>>> getHistoryBottle(@Header("Authorization") String token);
 }
