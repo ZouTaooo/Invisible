@@ -1,6 +1,5 @@
 package com.example.invisible.Activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -94,20 +92,10 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
-        setUpStatusBar();
+        statusView = findViewById(R.id.statusBarView);
+        setUpStatusBar(statusView, "#242C3B");
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("");
-        }
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return false;
-            }
-        });
+        setUpToolbar(mToolbar, "", true);
         mTitle11 = (TextView) findViewById(R.id.title1_1);
         mContent11 = (TextView) findViewById(R.id.content1_1);
         mAddBottle = findViewById(R.id.add_bottle);
@@ -131,7 +119,16 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
         mReplyContent = (EditText) findViewById(R.id.reply_content);
         mSend = (TextView) findViewById(R.id.send);
         mSend.setOnClickListener(this);
+        setUpRecyclerView();
+        mContentLayout = (LinearLayout) findViewById(R.id.content_layout);
+    }
+
+    private void setUpRecyclerView() {
         mBottlesRecyclerView = (RecyclerView) findViewById(R.id.bottles_recyclerView);
+        getHistoryBottle();
+    }
+
+    private void getHistoryBottle() {
         RetrofitFactory.getInstance().getHistoryBottle("Token " + token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -139,7 +136,7 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void accept(Basebean<List<HistoryBottles.HistoryItem>> listBasebean) throws Exception {
                         List<HistoryBottles.HistoryItem> historyItems;
-                        if (listBasebean.getBody()!=null) {
+                        if (listBasebean.getBody() != null) {
                             historyItems = listBasebean.getBody();
                         } else {
                             historyItems = new ArrayList<>();
@@ -147,32 +144,8 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
                         HistoryBottlesRecyclerViewAdapter adapter = new HistoryBottlesRecyclerViewAdapter(BottlesActivity.this, historyItems);
                         mBottlesRecyclerView.setLayoutManager(new LinearLayoutManager(BottlesActivity.this));
                         mBottlesRecyclerView.setAdapter(adapter);
-
                     }
                 });
-        mContentLayout = (LinearLayout) findViewById(R.id.content_layout);
-    }
-
-    private void setUpStatusBar() {
-        statusView = findViewById(R.id.statusBarView);
-        ViewGroup.LayoutParams layoutParams = statusView.getLayoutParams();
-        layoutParams.height = getStatusBarHeight();
-        statusView.setBackgroundColor(Color.parseColor("#242C3B"));
-    }
-
-    /**
-     * 利用反射获取状态栏高度
-     *
-     * @return
-     */
-    public int getStatusBarHeight() {
-        int result = 0;
-        //获取状态栏高度的资源id
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 
     private void setVisibility1_1(int visibility) {

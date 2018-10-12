@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -116,10 +115,34 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         mListen = (TextView) findViewById(R.id.listen);
         mListen.setOnClickListener(this);
         mDrawLayout = findViewById(R.id.drawer_layout);
-        setUpStatusBar();
-        setUpTitleBar();
+        statusBar = findViewById(R.id.statusBarView);
+        setUpStatusBar(statusBar, FRAGMENT_ONE_COLOR);
+        toolbarSettings();
         setUpViewPager();
         setUpNav();
+    }
+
+    private void toolbarSettings() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(this);
+        setUpToolbar(mToolbar, "", false);
+        //menu item click event
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.diary:
+                        startActivity(new Intent(CenterActivity.this, DiaryActivity.class));
+                        break;
+                    case R.id.bottle:
+                        startActivity(new Intent(CenterActivity.this, BottlesActivity.class));
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     private void getBingPic() {
@@ -149,12 +172,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    private void setUpStatusBar() {
-        statusBar = findViewById(R.id.statusBarView);
-        ViewGroup.LayoutParams layoutParams = statusBar.getLayoutParams();
-        layoutParams.height = getStatusBarHeight();
-        statusBar.setBackgroundColor(Color.parseColor(FRAGMENT_ONE_COLOR));
-    }
 
     private void setUpViewPager() {
         mViewpager = (ViewPager) findViewById(R.id.viewpager);
@@ -241,29 +258,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    private void setUpTitleBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setNavigationOnClickListener(this);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("");
-        //menu item click event
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.diary:
-                        startActivity(new Intent(CenterActivity.this, DiaryActivity.class));
-                        break;
-                    case R.id.bottle:
-                        startActivity(new Intent(CenterActivity.this, BottlesActivity.class));
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
-    }
 
     /*左上角导航键点击事件*/
     @Override
@@ -283,22 +277,6 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         } else {
             super.onBackPressed();
         }
-    }
-
-    /**
-     * 利用反射获取状态栏高度
-     *
-     * @return
-     */
-    public int getStatusBarHeight() {
-        int result = 0;
-        //获取状态栏高度的资源id
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        Log.e(TAG, "getStatusBarHeight: " + result);
-        return result;
     }
 
     @Override

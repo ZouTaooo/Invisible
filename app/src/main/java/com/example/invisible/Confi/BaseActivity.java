@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.example.invisible.R;
 
 public class BaseActivity extends AppCompatActivity {
     private SharedPreferences preferences;
@@ -27,6 +31,36 @@ public class BaseActivity extends AppCompatActivity {
         }
         mContext = this;
         mApplication.addActivity(mContext);
+    }
+
+
+    public void setUpToolbar(Toolbar mToolbar,String title,boolean isBack) {
+        setSupportActionBar(mToolbar);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(isBack);
+            actionBar.setTitle(title);
+        }
+    }
+
+    public void setUpStatusBar(View view,String color) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = getStatusBarHeight();
+        view.setBackgroundColor(Color.parseColor(color));
+    }
+    /**
+     * 利用反射获取状态栏高度
+     *
+     * @return
+     */
+    public int getStatusBarHeight() {
+        int result = 0;
+        //获取状态栏高度的资源id
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     /*全屏模式延伸*/

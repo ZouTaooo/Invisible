@@ -74,8 +74,9 @@
         <activity android:name=".Activity.CenterActivity" />
         <activity
             android:name=".Activity.DiaryActivity"
-            android:theme="@style/TransparentActivity"></activity>
-        <activity android:name=".Activity.BottlesActivity"></activity>
+            android:theme="@style/TransparentActivity" />
+        <activity android:name=".Activity.BottlesActivity" />
+        <activity android:name=".Activity.ChatActivity"></activity>
     </application>
 
 </manifest>
