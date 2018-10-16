@@ -2,24 +2,25 @@ package com.example.invisible.Fragment;
 
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 
+import com.example.invisible.Activity.ChatActivity;
 import com.example.invisible.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements View.OnClickListener {
 
-    private LinearLayout mChat;
-    private LinearLayout mTalk;
-    private LinearLayout mListen;
+    private static final String TAG = "ChatFragment";
+    private Button mChat;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -31,7 +32,25 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        initView(view);
         return view;
     }
 
+
+    private void initView(View view) {
+        mChat = (Button) view.findViewById(R.id.chat);
+        mChat.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.chat:
+                Log.e(TAG, "onClick: 1" );
+                startActivity(new Intent(getActivity(), ChatActivity.class));
+                break;
+        }
+    }
 }

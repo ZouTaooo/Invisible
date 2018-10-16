@@ -15,6 +15,8 @@ import com.example.invisible.Bean.Token;
 import com.example.invisible.Confi.BaseActivity;
 import com.example.invisible.Factory.RetrofitFactory;
 import com.example.invisible.R;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import java.util.regex.Pattern;
 
@@ -99,9 +101,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String password = mPassword.getText().toString();
                 String pattern = "[0-9]*";
                 if (Pattern.matches(pattern, account) && account.length() == 11) {
-                    if (!TextUtils.isEmpty(password))
+                    if (!TextUtils.isEmpty(password)) {
                         login();
-                    else T("密码为空");
+                        putS("user", account);
+                    } else T("密码为空");
                 } else {
                     T("手机号错误");
                 }
@@ -134,6 +137,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (tokenBasebean.getStatus() == 1) {
                             putS("token", tokenBasebean.getBody().getToken());
                             Log.e(TAG, "accept: token" + tokenBasebean.getBody().getToken());
+                            EMClient.getInstance().login(mAccount.getText().toString(),mPassword.getText().toString(),new EMCallBack() {//回调
+                                @Override
+                                public void onSuccess() {
+                                    EMClient.getInstance().groupManager().loadAllGroups();
+                                    EMClient.getInstance().chatManager().loadAllConversations();
+                                    Log.d("main", "登录聊天服务器成功！");
+                                }
+
+                                @Override
+                                public void onProgress(int progress, String status) {
+
+                                }
+
+                                @Override
+                                public void onError(int code, String message) {
+                                    Log.d("main", "登录聊天服务器失败！");
+                                }
+                            });
                             startActivity(new Intent(LoginActivity.this, CenterActivity.class));
                             removeAllActivity();
                         } else {
