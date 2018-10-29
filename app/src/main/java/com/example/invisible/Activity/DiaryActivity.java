@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +26,8 @@ import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Trace;
 import com.example.invisible.Confi.BaseActivity;
 import com.example.invisible.Factory.RetrofitFactory;
-import com.example.invisible.FlowViewVertical;
 import com.example.invisible.R;
+import com.example.invisible.UI.FlowViewVertical;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class DiaryActivity extends BaseActivity implements View.OnClickListener,
         date = "" + year + convertInt(month) + convertInt(day);//20180920
         initView();
         getTrace(token, date);
+
     }
 
     private void getTrace(String token, String date) {
@@ -168,15 +170,19 @@ public class DiaryActivity extends BaseActivity implements View.OnClickListener,
                             public void onClick(DialogInterface dialog, int which) {
                                 String type = "日迹";
                                 String content = editText.getText().toString();
-                                int year = calendar.get(Calendar.YEAR);
-                                int month = calendar.get(Calendar.MONTH) + 1;
-                                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                                int minute = calendar.get(Calendar.MINUTE);
-                                //time 201809201559 具体到分钟
-                                String time = convertInt(year) + convertInt(month) + convertInt(day) + convertInt(hour) + convertInt(minute);
-                                Log.e(TAG, "onClick: 上传的time为" + time);
-                                putTrace(time, content, type, token);
+                                if (TextUtils.isEmpty(content)) {
+                                    T("内容不能为空...");
+                                } else {
+                                    int year = calendar.get(Calendar.YEAR);
+                                    int month = calendar.get(Calendar.MONTH) + 1;
+                                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                                    int minute = calendar.get(Calendar.MINUTE);
+                                    //time 201809201559 具体到分钟
+                                    String time = convertInt(year) + convertInt(month) + convertInt(day) + convertInt(hour) + convertInt(minute);
+                                    Log.e(TAG, "onClick: 上传的time为" + time);
+                                    putTrace(time, content, type, token);
+                                }
                             }
                         })
                         .setNegativeButton("取消", null)

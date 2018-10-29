@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_3"
-    tools:context=".Fragment.TalkFragment">
+    android:orientation="vertical"
+    android:background="@drawable/background_1_modified"
+    tools:context=".Fragment.ChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="talk" />
+        android:text="我有故事 你有酒吗"
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="40dp" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/talk"
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center_horizontal"
+        android:text="开始聊天"
+        android:textColor="@drawable/login_text_color"
+        android:background="@drawable/button_startchat"
+        android:layout_width="200dp"
+        android:layout_height="41dp" />
+</LinearLayout>

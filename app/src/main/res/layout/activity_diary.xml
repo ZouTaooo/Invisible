@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentScrim="@color/colorAccent"
+            app:contentScrim="@color/deep_blue"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.example.invisible.FlowViewVertical
+                <com.example.invisible.UI.FlowViewVertical
                     android:id="@+id/FlowViewVertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

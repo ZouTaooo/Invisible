@@ -43,6 +43,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+
     public void setUpStatusBar(View view,String color) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = getStatusBarHeight();

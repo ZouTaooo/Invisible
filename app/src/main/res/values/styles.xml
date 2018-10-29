@@ -3,8 +3,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#3F51B5</item>
-        <item name="colorPrimaryDark">#CE2820</item>
-        <item name="colorAccent">#F23826</item>
+        <item name="colorPrimaryDark">#FF242C3B</item>
+        <item name="colorAccent">#3F51B5</item>
     </style>
 
     <style name="ToolbarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
@@ -13,5 +13,16 @@
 
     <style name="TransparentActivity" parent="AppTheme">
 
+    </style>
+
+    <!--colorControlNormal 为没有获取焦点时候下划线的颜色-->
+    <!--colorControlActivated 为获取焦点时候光标与下划线的颜色-->
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/color_gray</item>
+        <item name="colorControlActivated">@color/color_gray</item>
+    </style>
+    <style name="LoginEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/color_white</item>
+        <item name="colorControlActivated">@color/color_white</item>
     </style>
 </resources>

@@ -6,41 +6,36 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.invisible.Adapter.MyFragmentPagerAdapter;
+import com.example.invisible.Bean.Basebean;
+import com.example.invisible.Bean.Score;
 import com.example.invisible.Confi.BaseActivity;
+import com.example.invisible.Factory.RetrofitFactory;
 import com.example.invisible.Fragment.ChatFragment;
 import com.example.invisible.Fragment.ListenFragment;
 import com.example.invisible.Fragment.TalkFragment;
 import com.example.invisible.R;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class CenterActivity extends BaseActivity implements View.OnClickListener {
 
@@ -72,18 +67,18 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
      */
     private TextView mListen;
 
-    private NavigationView mNavigationView;
+    private TextView mNickname;
 
-    private DrawerLayout mDrawLayout;
+    private TextView mUserNum;
 
     private View statusBar;
 
     private LinearLayout mHeader;
 
 
-    private ImageView mNav_pic;
-
     private static final String TAG = "CenterActivity";
+
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +87,29 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         fullScreen(this);
         initView();
         initMap();
+    }
+
+    private void getScore() {
+        RetrofitFactory.getInstance().get_score("Token " + getS("token"))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<Basebean<Score>>() {
+                    @Override
+                    public void accept(Basebean<Score> basebean) throws Exception {
+                        if (basebean.getStatus() == 1) {
+                            String score = basebean.getBody().getScore();
+                            Log.e(TAG, "accept: score:" + score);
+                            mUserNum.setText(score);
+                        } else {
+                            Toast.makeText(CenterActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText(CenterActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initMap() {
@@ -114,13 +132,16 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         mChat.setOnClickListener(this);
         mListen = (TextView) findViewById(R.id.listen);
         mListen.setOnClickListener(this);
-        mDrawLayout = findViewById(R.id.drawer_layout);
+        mNickname = findViewById(R.id.nickname);
+        name = getS("name");
+        mNickname.setText(name);
+        mUserNum = findViewById(R.id.user_num);
         statusBar = findViewById(R.id.statusBarView);
         setUpStatusBar(statusBar, FRAGMENT_ONE_COLOR);
         toolbarSettings();
         setUpViewPager();
-        setUpNav();
     }
+
 
     private void toolbarSettings() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,37 +158,17 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
                     case R.id.bottle:
                         startActivity(new Intent(CenterActivity.this, BottlesActivity.class));
                         break;
+                    case R.id.exit:
+                        startActivity(new Intent(CenterActivity.this, LoginActivity.class));
+                        finish();
+                        break;
+                    case R.id.delete_share_preference:
+                        Toast.makeText(CenterActivity.this, "清理成功", Toast.LENGTH_SHORT).show();
+                        break;
                     default:
                         break;
                 }
                 return true;
-            }
-        });
-    }
-
-    private void getBingPic() {
-        OkHttpClient client = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url("http://guolin.tech/api/bing_pic")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                T(e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String url = response.body().string();
-                putS("bing_pic", url);
-                putS("pic_time", "");
-                Log.e(TAG, "onResponse: " + url);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Glide.with(CenterActivity.this).load(url).into(mNav_pic);
-                    }
-                });
             }
         });
     }
@@ -216,67 +217,11 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    private void setUpNav() {
-        mNavigationView = findViewById(R.id.nav_view);
-        View headerView = mNavigationView.getHeaderView(0);
-        mNav_pic = headerView.findViewById(R.id.nav_pic);
-        String url = getS("bing_pic");
-        if (url != null) {
-            Glide.with(CenterActivity.this)
-                    .load(url)
-                    .into(mNav_pic);
-        } else {
-            getBingPic();
-        }
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.modify_password:
-                        break;
-                    case R.id.modify_nickname:
-                        break;
-                    case R.id.delete_share_preference:
-                        //TODO clear share preferences
-                        break;
-                    case R.id.settings:
-                        break;
-                    case R.id.about:
-                        break;
-                    case R.id.feedback:
-                        break;
-                    case R.id.exit:
-                        startActivity(new Intent(CenterActivity.this, LoginActivity.class));
-                        removeAllActivity();
-                        break;
-                    default:
-                        break;
-                }
-                mDrawLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
-    }
-
-
-    /*左上角导航键点击事件*/
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            mDrawLayout.openDrawer(GravityCompat.START);
-            return true;
-        }
-        return false;
-    }
-
-    /*如果DrawLayout被打开则关闭DrawLayout*/
-    @Override
-    public void onBackPressed() {
-        if (mDrawLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: ");
+        getScore();
     }
 
     @Override

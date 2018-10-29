@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.invisible.Adapter.HistoryBottlesRecyclerViewAdapter;
@@ -30,6 +30,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BottlesActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "BottlesActivity";
+
+    private ScrollView mScrollView;
 
     private String token;
 
@@ -121,6 +123,17 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
         mSend.setOnClickListener(this);
         setUpRecyclerView();
         mContentLayout = (LinearLayout) findViewById(R.id.content_layout);
+        mScrollView = findViewById(R.id.scrollView);
+        scrollViewToTop();
+    }
+
+    private void scrollViewToTop() {
+        mScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
     }
 
     private void setUpRecyclerView() {
@@ -195,10 +208,13 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
                 String content = mBottleContent.getText().toString();
                 if (!TextUtils.isEmpty(content)) {
                     pushBottle(content);
+                    setVisibility1_1(View.VISIBLE);
+                    setVisibility1_2(View.GONE);
+                    mBottleContent.setText("");
+                    scrollViewToTop();
+                } else {
+                    T("内容不能为空...");
                 }
-                setVisibility1_1(View.VISIBLE);
-                setVisibility1_2(View.GONE);
-                mBottleContent.setText("");
                 break;
             case R.id.get_bottle:
                 setVisibility2_1(View.GONE);
@@ -219,11 +235,16 @@ public class BottlesActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.send:
                 String reply = mReplyContent.getText().toString();
-                sendReply(reply);
-                setVisibility2_1(View.VISIBLE);
-                setVisibility2_3(View.GONE);
-                mContent22.setText("");
-                mReplyContent.setText("");
+                if (!TextUtils.isEmpty(reply)) {
+                    sendReply(reply);
+                    setVisibility2_1(View.VISIBLE);
+                    setVisibility2_3(View.GONE);
+                    mContent22.setText("");
+                    mReplyContent.setText("");
+                    scrollViewToTop();
+                } else {
+                    T("内容不能为空...");
+                }
                 break;
         }
     }

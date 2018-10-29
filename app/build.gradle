@@ -60,10 +60,12 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //图片加载
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    // Optional, for RxJava2 adapter
+    implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }
 
 realm {
-
     syncEnabled = true
 }

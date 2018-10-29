@@ -8,7 +8,7 @@
         app:titleTextColor="@color/color_white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="#FF242C3B"
         app:navigationIcon="@drawable/ic_chevron_left_white_36dp"
         app:titleMarginStart="93dp" />
 </LinearLayout>

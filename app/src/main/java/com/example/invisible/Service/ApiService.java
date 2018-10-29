@@ -1,8 +1,10 @@
 package com.example.invisible.Service;
 
+import com.example.invisible.Bean.AnotherPhone;
 import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Bottle;
 import com.example.invisible.Bean.HistoryBottles;
+import com.example.invisible.Bean.Score;
 import com.example.invisible.Bean.Token;
 import com.example.invisible.Bean.Trace;
 
@@ -54,11 +56,13 @@ public interface ApiService {
     Observable<Basebean> modifyPassword(@Field("mobile") String mobile,
                                         @Field("password") String password);
 
+    //获取日迹
     @FormUrlEncoded
     @POST("api/get_trace/")
     Observable<Basebean<List<Trace>>> getTrace(@Field("time") String time,
                                                @Header("Authorization") String token);
 
+    //上传日迹
     @FormUrlEncoded
     @POST("api/trace/")
     Observable<Basebean> putTrace(@Field("time") String time,
@@ -66,15 +70,18 @@ public interface ApiService {
                                   @Field("type") String type,
                                   @Header("Authorization") String token);
 
+    //获取一个漂流瓶
     @GET("api/bottle/")
     Observable<Basebean<Bottle>> getBottle(@Header("Authorization") String token);
 
+    //丢一个漂流瓶
     @FormUrlEncoded
     @POST("api/bottle/")
     Observable<Basebean> sendBottle(@Header("Authorization") String token,
                                     @Field("content") String content,
                                     @Field("date") String date);
 
+    //回复漂流瓶
     @FormUrlEncoded
     @POST("api/re_bottle/")
     Observable<Basebean> replyBottle(@Header("Authorization") String token,
@@ -83,6 +90,29 @@ public interface ApiService {
                                      @Field("to_user") String userId,
                                      @Field("date") String anything);
 
+    //获取被回复的漂流瓶
     @GET("api/get_rebottle/")
     Observable<Basebean<List<HistoryBottles.HistoryItem>>> getHistoryBottle(@Header("Authorization") String token);
+
+    //聊天匹配
+    @FormUrlEncoded
+    @POST("api/match/")
+    Observable<Basebean<AnotherPhone>> match(@Header("Authorization") String token,
+                                             @Field("role") String role);
+
+    //取消匹配
+    @POST("api/break_match/")
+    Observable<Basebean> break_match(@Header("Authorization") String token);
+
+    //评价
+    @FormUrlEncoded
+    @POST("api/evalute/")
+    Observable<Basebean> evalute(@Header("Authorization") String token,
+                                 @Field("add") String add,
+                                 @Field("user") String username);
+
+    //获取好感度
+    @GET("api/get_score/")
+    Observable<Basebean<Score>> get_score(@Header("Authorization") String token);
+
 }

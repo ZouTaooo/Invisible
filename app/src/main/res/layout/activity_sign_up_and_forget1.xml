@@ -13,6 +13,8 @@
         android:gravity="center"
         android:layout_marginTop="60dp"
         android:id="@+id/account"
+        android:textCursorDrawable="@drawable/bg_edittext"
+        android:theme="@style/MyEditText"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"

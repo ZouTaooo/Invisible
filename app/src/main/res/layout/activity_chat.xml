@@ -25,7 +25,9 @@
         app:popupTheme="@style/ToolbarPopupTheme"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:titleMarginStart="93dp"
-        app:titleTextColor="@color/color_white" />
+        app:titleTextColor="@color/color_white">
+
+    </android.support.v7.widget.Toolbar>
 
     <!--<android.support.v7.widget.RecyclerView-->
     <!--android:id="@+id/chat_recyclerView"-->

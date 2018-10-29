@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/button_login"
-        android:textColor="@drawable/login_text_color"
+        android:background="@drawable/button_not_pressed"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 </LinearLayout>

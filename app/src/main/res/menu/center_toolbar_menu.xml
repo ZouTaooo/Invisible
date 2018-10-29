@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottle"
         android:icon="@drawable/icons8_sea_heart_36"
@@ -9,4 +8,12 @@
         android:id="@+id/diary"
         android:icon="@drawable/icons8_sign_up_36"
         android:title="日迹" />
+    <item
+        android:id="@+id/delete_share_preference"
+        android:icon="@drawable/icons8_restart_36"
+        android:title="清除缓存" />
+    <item
+        android:id="@+id/exit"
+        android:icon="@drawable/ic_arrow_back_black_24dp"
+        android:title="退出登录" />
 </menu>

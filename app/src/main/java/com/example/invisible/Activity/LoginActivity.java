@@ -48,6 +48,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView mForgetPassword;
 
     private String phone;
+
     private String password;
 
     final static private int PHONE_REGISTER = 0;
@@ -102,6 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String pattern = "[0-9]*";
                 if (Pattern.matches(pattern, account) && account.length() == 11) {
                     if (!TextUtils.isEmpty(password)) {
+                        //startActivity(new Intent(LoginActivity.this,SetPatternLockActivity.class));
                         login();
                         putS("user", account);
                     } else T("密码为空");
@@ -136,8 +138,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onNext(Basebean<Token> tokenBasebean) {
                         if (tokenBasebean.getStatus() == 1) {
                             putS("token", tokenBasebean.getBody().getToken());
+                            putS("name", tokenBasebean.getBody().getName());
                             Log.e(TAG, "accept: token" + tokenBasebean.getBody().getToken());
-                            EMClient.getInstance().login(mAccount.getText().toString(),mPassword.getText().toString(),new EMCallBack() {//回调
+                            EMClient.getInstance().login(mAccount.getText().toString(), mPassword.getText().toString(), new EMCallBack() {//回调
                                 @Override
                                 public void onSuccess() {
                                     EMClient.getInstance().groupManager().loadAllGroups();

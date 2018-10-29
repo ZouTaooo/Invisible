@@ -12,6 +12,7 @@
     <color name="gray">#8A000000</color>
     <color name="FRAGMENT_ONE_COLOR">#242C3B</color>
     <color name="uncompleted_text_color">#BBBBBB</color>
+    <color name="deep_blue">#FF242C3B</color>
     <drawable name="color_black">#000</drawable>
     <drawable name="color_white">#FFF</drawable>
     <drawable name="color_gray">#9E9E9E</drawable>

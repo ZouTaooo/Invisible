@@ -68,15 +68,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget1Activity" />
-        <activity android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget2Activity" />
-        <activity android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget3Activity" />
+        <activity
+            android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget1Activity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget2Activity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Activity.SignUpAndForgetActivity.SignUpAndForget3Activity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".Activity.CenterActivity" />
         <activity
             android:name=".Activity.DiaryActivity"
-            android:theme="@style/TransparentActivity" />
-        <activity android:name=".Activity.BottlesActivity" />
-        <activity android:name=".Activity.ChatActivity"></activity>
+            android:theme="@style/TransparentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Activity.BottlesActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".Activity.ChatActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".Activity.SetPatternLockActivity"></activity>
     </application>
 
 </manifest>

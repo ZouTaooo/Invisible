@@ -27,6 +27,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:hint="Nickname"
+        android:textCursorDrawable="@drawable/bg_edittext"
+        android:theme="@style/MyEditText"
         android:inputType="text"
         android:textSize="21sp" />
 
@@ -41,6 +43,8 @@
         android:textColor="#000"
         android:textSize="14sp" />
     <EditText
+        android:textCursorDrawable="@drawable/bg_edittext"
+        android:theme="@style/MyEditText"
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -61,6 +65,8 @@
         android:textColor="#000"
         android:textSize="14sp" />
     <EditText
+        android:textCursorDrawable="@drawable/bg_edittext"
+        android:theme="@style/MyEditText"
         android:maxLength="16"
         android:id="@+id/password1"
         android:layout_width="match_parent"
@@ -72,6 +78,8 @@
         android:textSize="21sp" />
 
     <EditText
+        android:textCursorDrawable="@drawable/bg_edittext"
+        android:theme="@style/MyEditText"
         android:maxLength="16"
         android:id="@+id/password2"
         android:layout_width="match_parent"

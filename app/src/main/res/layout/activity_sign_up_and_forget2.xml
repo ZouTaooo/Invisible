@@ -39,7 +39,7 @@
         android:textSize="40sp"
         app:bottomLineHeight="2dp"
         app:bottomLineNormalColor="@color/color_black"
-        app:bottomLineSelectedColor="@color/colorAccent"
+        app:bottomLineSelectedColor="@color/deep_blue"
         app:figures="6"
         app:selectedBackgroundColor="@color/transport"
         app:verCodeMargin="10dp" />
