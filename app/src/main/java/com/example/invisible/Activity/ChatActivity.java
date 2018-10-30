@@ -117,6 +117,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Log.e(TAG, "run: T another people leave" );
                                 Toast.makeText(ChatActivity.this, "对方已离开聊天", Toast.LENGTH_SHORT).show();
                             }
                         });

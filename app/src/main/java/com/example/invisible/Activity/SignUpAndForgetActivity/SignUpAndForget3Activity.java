@@ -166,7 +166,7 @@ public class SignUpAndForget3Activity extends BaseActivity implements View.OnCli
                         if (tokenBasebean.getStatus() == 1) {
                             showDialog("欢迎来到Invisible!");
                         } else {
-                            T(tokenBasebean.getMsg());
+                            T("注册失败");
                         }
                     }
                 });
@@ -182,8 +182,8 @@ public class SignUpAndForget3Activity extends BaseActivity implements View.OnCli
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         Intent i = new Intent(SignUpAndForget3Activity.this, LoginActivity.class);
-                        i.putExtra("phone", phone);
-                        i.putExtra("password", mPassword1.getText().toString());
+                        putS("login_phone", phone);
+                        putS("login_password", mPassword1.getText().toString());
                         startActivity(i);
                         removeAllActivity();
                     }

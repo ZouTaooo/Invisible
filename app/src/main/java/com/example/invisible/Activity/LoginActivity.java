@@ -61,9 +61,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Intent i = getIntent();
-        phone = i.getStringExtra("phone");
-        password = i.getStringExtra("password");
+        phone = getS("login_phone");
+        password = getS("login_password");
         initView();
     }
 
