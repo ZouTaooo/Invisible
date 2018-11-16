@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/deep_blue"
+    android:background="#242C3B"
     android:orientation="vertical"
     tools:context=".Activity.LoginActivity">
 
@@ -57,7 +57,7 @@
         android:textSize="21sp" />
 
     <include
-        layout="@layout/layout_button"
+        layout="@layout/layout_button_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp" />

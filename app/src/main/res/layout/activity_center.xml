@@ -43,13 +43,14 @@
 
             <ImageView
                 android:id="@+id/head_pic"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="20dp"
                 android:src="@color/color_red" />
 
             <LinearLayout
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
