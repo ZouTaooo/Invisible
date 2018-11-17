@@ -25,6 +25,7 @@ import com.hyphenate.chat.EMMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -64,11 +65,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private boolean isNeedEva;
 
+    private int headPics[] = {R.drawable.head1_1, R.drawable.head1_2, R.drawable.head1_3,
+            R.drawable.head1_4, R.drawable.head1_5, R.drawable.head1_6, R.drawable.head1_7, R.drawable.head1_8};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        fullScreen(this);
+//        fullScreen(this);
         messageList = new ArrayList<>();
         isLeave = false;
         isNeedEva = false;
@@ -117,7 +121,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.e(TAG, "run: T another people leave" );
+                                Log.e(TAG, "run: T another people leave");
                                 Toast.makeText(ChatActivity.this, "对方已离开聊天", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -175,8 +179,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        mStatusBarView = (View) findViewById(R.id.statusBarView);
-        setUpStatusBar(mStatusBarView, "#242C3B");
+//        mStatusBarView = (View) findViewById(R.id.statusBarView);
+//        setUpStatusBar(mStatusBarView, "#242C3B");
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setUpToolbar(mToolbar, role, true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -192,7 +196,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         });
 //        setUpRecycler();
         mListView = findViewById(R.id.chat_listView);
-        adapter = new ChatListviewAdapter(this, R.layout.layout_chat_recyclerview_item, messageList);
+
+        adapter = new ChatListviewAdapter(this, R.layout.layout_chat_recyclerview_item, messageList, new Random().nextInt(8), new Random().nextInt(8));
         mListView.setAdapter(adapter);
         mContentEdit = (EditText) findViewById(R.id.content_edit);
         mSend = (Button) findViewById(R.id.send);
@@ -259,7 +264,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (isNeedEva) {
             showEvaluteDialog();
         } else {

@@ -87,7 +87,8 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".Activity.ChatActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
         <activity android:name=".Activity.SetPatternLockActivity"></activity>
     </application>
 

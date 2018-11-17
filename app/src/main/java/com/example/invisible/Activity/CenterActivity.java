@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.invisible.Adapter.MyFragmentPagerAdapter;
 import com.example.invisible.Bean.Basebean;
 import com.example.invisible.Bean.Score;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -74,6 +77,11 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
     private View statusBar;
 
     private LinearLayout mHeader;
+
+    private ImageView mHead;
+
+    private int headPics[] = {R.drawable.head1_1, R.drawable.head1_2, R.drawable.head1_3,
+            R.drawable.head1_4, R.drawable.head1_5, R.drawable.head1_6, R.drawable.head1_7, R.drawable.head1_8};
 
 
     private static final String TAG = "CenterActivity";
@@ -140,6 +148,8 @@ public class CenterActivity extends BaseActivity implements View.OnClickListener
         setUpStatusBar(statusBar, FRAGMENT_ONE_COLOR);
         toolbarSettings();
         setUpViewPager();
+        mHead = findViewById(R.id.head_pic);
+        Glide.with(CenterActivity.this).load(headPics[new Random().nextInt(8)]).into(mHead);
     }
 
 
