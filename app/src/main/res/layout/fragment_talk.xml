@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_1_modified"
-    tools:context=".Fragment.ChatFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:text="我有故事 你有酒吗"
-        android:layout_marginTop="100dp"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="40dp" />
+    <ImageView
+        android:scaleType="fitCenter"
+        android:src="@drawable/bg6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/talk"
-        android:layout_marginTop="150dp"
-        android:layout_gravity="center_horizontal"
-        android:text="开始聊天"
-        android:textColor="@drawable/login_text_color"
-        android:background="@drawable/button_startchat"
-        android:layout_width="200dp"
-        android:layout_height="41dp" />
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Fragment.ChatFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:text="我有故事 你有酒吗" />
+
+        <Button
+            android:id="@+id/talk"
+            android:layout_width="200dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/button_startchat"
+            android:text="开始聊天"
+            android:textColor="@drawable/login_text_color" />
+    </LinearLayout>
+</FrameLayout>
